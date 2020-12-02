@@ -1,4 +1,4 @@
-package utils;
+package Utils;
 
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
