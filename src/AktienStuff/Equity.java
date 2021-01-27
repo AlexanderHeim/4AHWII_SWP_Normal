@@ -29,6 +29,18 @@ public class Equity {
         this.setSplit_coefficient(new BigDecimal(json.get("8. split coefficient").toString()));
     }
 
+    public Equity(Date date, BigDecimal open, BigDecimal close, BigDecimal high, BigDecimal low, BigDecimal adjusted_close, long volume, BigDecimal dividend_amount, BigDecimal split_coefficient) {
+        this.setDate(date);
+        this.setOpen(open);
+        this.setClose(close);
+        this.setAdjusted_close(adjusted_close);
+        this.setHigh(high);
+        this.setLow(low);
+        this.setVolume(volume);
+        this.setDividend_amount(dividend_amount);
+        this.setSplit_coefficient(split_coefficient);
+    }
+
     public Date getDate() {
         return date;
     }
