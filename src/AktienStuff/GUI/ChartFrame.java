@@ -8,6 +8,7 @@ import AktienStuff.Equity;
 import AktienStuff.Main;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
+import org.jfree.chart.ChartUtils;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.DateTickUnit;
@@ -28,6 +29,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -85,11 +87,14 @@ public class ChartFrame extends JFrame {
         JMenuItem menuItem1 = new JMenuItem("Current: ");
         JMenuItem menuItem2 = new JMenuItem("Change Equity");
         JMenuItem menuItem3 = new JMenuItem("Large refetch");
+        JMenuItem menuItem4 = new JMenuItem("Save as Image");
         menuItem2.addActionListener(new ChangeEquityListener());
         menuItem3.addActionListener(new LargeRefetchListener());
+        menuItem4.addActionListener(new SaveAsImageListener());
         menu.add(menuItem1);
         menu.add(menuItem2);
         menu.add(menuItem3);
+        menu.add(menuItem4);
         return menuBar;
     }
 
@@ -175,6 +180,16 @@ public class ChartFrame extends JFrame {
                 dbm.close_connection();
 
                 change_timeseries_with_avgs(chartpanel.getChart().getTitle().getText(), equities1, avgs1);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        }
+    }
+
+    class SaveAsImageListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            try {
+                ChartUtils.saveChartAsPNG(new File(chartpanel.getChart().getTitle().getText() + ".png"), chartpanel.getChart(), 1920, 1080);
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
