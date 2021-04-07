@@ -182,7 +182,7 @@ public class StockBaseMYSQL implements IStocksDatabase {
             HashMap<Date, Equity> equities = new HashMap<Date, Equity>();
             while(rset.next()) {
                 equities.put(rset.getDate(1), new Equity(rset.getDate(1), rset.getBigDecimal(2), rset.getBigDecimal(3),
-                        rset.getBigDecimal(4), rset.getBigDecimal(5), rset.getBigDecimal(6),
+                        rset.getBigDecimal(5), rset.getBigDecimal(6), rset.getBigDecimal(4),
                         rset.getInt(7), rset.getBigDecimal(8), rset.getBigDecimal(9)));
             }
             return equities;
@@ -235,7 +235,7 @@ public class StockBaseMYSQL implements IStocksDatabase {
     @Override
     public BigDecimal calculate_200avg_for_date(String equity_name, Date date) {
         try {
-            PreparedStatement pstatement = this.connection.prepareStatement("select avg(close) from stock_time_series_" + equity_name +
+            PreparedStatement pstatement = this.connection.prepareStatement("select avg(adjusted_close) from stock_time_series_" + equity_name +
                     " where DATE(day) <= ? and DATE(day) >= ?");
             pstatement.setDate(1, date);
             pstatement.setDate(2, Date.valueOf(date.toLocalDate().minusDays(200)));

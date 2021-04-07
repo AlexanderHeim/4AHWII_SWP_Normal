@@ -40,6 +40,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static AktienStuff.Utility.new_timeseries_200avg_chart;
+
 public class ChartFrame extends JFrame {
 
     private JMenuBar menubar;
@@ -98,37 +100,7 @@ public class ChartFrame extends JFrame {
         return menuBar;
     }
 
-    private JFreeChart new_timeseries_200avg_chart(String name, HashMap<Date, Equity> timeseries, HashMap<Date, BigDecimal> avgs) {
-        TimeSeries ts1 = new TimeSeries(name);
-        for (Date d : timeseries.keySet()) {
-            Equity equity = timeseries.get(d);
-            LocalDate date = d.toLocalDate();
-            int day = date.getDayOfMonth();
-            int month = date.getMonthValue();
-            int year = date.getYear();
-            ts1.add(new Day(day, month, year), equity.getClose());
-        }
-        TimeSeries ts2 = new TimeSeries("200 avg");
-        for (Date d : avgs.keySet()) {
-            BigDecimal value = avgs.get(d);
-            LocalDate date = d.toLocalDate();
-            int day = date.getDayOfMonth();
-            int month = date.getMonthValue();
-            int year = date.getYear();
-            ts2.add(new Day(day, month, year), value);
-        }
 
-        TimeSeriesCollection ts_collection = new TimeSeriesCollection();
-        ts_collection.addSeries(ts1);
-        ts_collection.addSeries(ts2);
-
-        JFreeChart jChart = ChartFactory.createTimeSeriesChart(name, "Date", "Close Value in $", ts_collection, true, true ,false);
-        XYPlot plot = (XYPlot) jChart.getPlot();
-        plot.getRenderer().setDefaultStroke(new BasicStroke(2.0f));
-        ((AbstractRenderer) plot.getRenderer()).setAutoPopulateSeriesStroke(false);
-        ((AbstractRenderer) plot.getRenderer()).setSeriesPaint(0,  new Color(0, 0, 0));
-        return jChart;
-    }
 
     public TimeSeriesCollection create_dataset(HashMap<Date, Equity> timeseries) {
         TimeSeries ts = new TimeSeries("TEST");
@@ -137,7 +109,7 @@ public class ChartFrame extends JFrame {
             int day = d.toLocalDate().getDayOfMonth();
             int month = d.toLocalDate().getMonthValue();
             int year = d.toLocalDate().getYear();
-            ts.add(new Day(day, month, year), e.getClose());
+            ts.add(new Day(day, month, year), e.getAdjusted_close());
         }
         return new TimeSeriesCollection(ts);
     }
