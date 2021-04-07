@@ -4,6 +4,8 @@
 ## How to setup
 - Make sure you use an updated Java Runtime
 - Compile the Project as a jar.
+- Create a "Codes.txt" file in the jar directory. Write the codes of the stocks you want into it (One per line).
+- Create a "AlphavantageKey.txt" file in the jar directory. Write your key into it.
 - Run the jar. (If you want to run it as the non gui version, make sure you pass "--nogui" as an argument. So in cmd you would do: "java -jar AktienStuff.jar --nogui")
 
 ### How to compile
